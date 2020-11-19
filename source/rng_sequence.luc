@@ -1,0 +1,33 @@
+module rng_sequence (
+    input clk,  // clock
+    input rst,  // reset
+    input next,
+    input rand_sel,
+    
+    output out[16]
+  ) {
+
+  .clk(clk) {
+    .rst(rst) {
+      pn_gen rnd_gen;
+    }
+  }
+  
+  sig_selector duplicate (#DUP(1));
+  
+  
+  always {
+    rnd_gen.seed = 32hDEADBEEF;
+    rnd_gen.next = next;
+    duplicate.value = 0;
+    
+    if (rand_sel) {
+      // LED
+      out = rnd_gen.num[15:0];
+    } else {
+      // Buzzer
+      duplicate.value = rnd_gen.num[7:0];
+      out = duplicate.double;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+module play_notes (
+    input ra[16],
+    input rb[16],
+    input ctr_sel[3],
+    input enable,
+    output buzz_high,
+    output buzz_low,
+    output led[4]
+  ) {
+
+  sig_selector buzz_split(#SPLIT(1));
+  sig_selector led_split(#SPLIT(1));
+  
+  sig buzz;
+  sig led_sel[2];
+  
+  always {
+    led_split.value = ra;
+    buzz_split.value = rb;
+    
+    // Off when not enabled
+    led[3:0] = 4h0;
+    buzz_high = 0;
+    buzz_low = 0;
+    
+    // Only play when it's enabled
+    if (enable) {
+  
+      buzz = buzz_split.even[ctr_sel];
+      led_sel[0] = led_split.even[ctr_sel];
+      led_sel[1] = led_split.odd[ctr_sel];
+      
+      // Output buzzer
+      // When buzz is high, XOR gate will negate the button values
+      // When buzz is low, XOR gate will not negate
+      buzz_high = buzz; // Negates
+      buzz_low = ~buzz;
+      
+      // Output led
+      case (led_sel) {
+        b00: led[0] = b1;
+        b01: led[1] = b1;
+        b10: led[2] = b1;
+        b11: led[3] = b1;
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+module sig_selector #(
+    DUP=0, SPLIT=0, NOTES=8
+  ) (
+    input value[16],
+    output double[16],
+    output even[8],
+    output odd[8]
+  ) {
+  
+  var note;
+  
+  always {
+    double = 16h0;
+    even = 8h0;
+    odd = 8h0;
+    
+    if (DUP) {
+      // Duplicate signal
+      for (note=0; note<NOTES; note++) {
+        double[note] = value[note];
+        double[2*note+1] = value[note];
+      }
+    }
+    
+    if (SPLIT) {
+      // Split signal
+      // input sequence is reversed as sequence plays from the left (1st note leftmost)
+      for (note=NOTES-1; note>=0; note--) {
+        even[NOTES-1 - note] = value[2*note];
+        odd[NOTES-1 - note] = value[2*note+1];
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+module play_counter (
+    input clk,  // clock
+    input rst,  // reset
+    input enable,
+    output done,
+    output ctr_sel[4]
+  ) {
+  
+  .clk(clk) {
+    edge_detector en_edge (#RISE(1), #FALL(0));
+    counter ctr (#SIZE(4), #DIV(25));
+  }
+  
+  always {
+    en_edge.in = enable;
+    ctr.rst = rst;
+    
+    if (en_edge.out) {
+      // Start counting (reset counter)
+      ctr.rst = 1;
+    }
+    
+    if (enable) {
+      // Output ctr values
+      ctr_sel = ctr.value[2:0];
+      done = ctr.value[3];
+    } else {
+      // Default when not activated
+      ctr_sel = 4h0;
+      done = 0;
+    }
+  }
+}
