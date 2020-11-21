@@ -1,0 +1,236 @@
+module whale (
+    input clk,  // clock
+    input rst,  // reset
+    input reg[16][16],
+    input counter_sel[4],
+    input blue,
+    input green,
+    input red,
+    input yellow,
+    output alufn[6],
+    output asel[2],
+    output bsel[2],
+    output we,
+    output ra[4],
+    output rb[4],
+    output rc[4],
+    output wdsel[2],
+    output play_enable,
+    output rand_sel
+  ) {
+  .clk(clk) {
+    .rst(rst) {
+      fsm state = {GENERATE_BUZZER_SEQUENCE,GENERATE_LED_SEQUENCE,GENERATE_FINAL_SEQUENCE,PLAY_SEQUENCE, IDLE, BLUE_SHIFT, GREEN_SHIFT, RED_SHIFT,YELLOW_SHIFT,BUTTON_COUNTER,GREEN_ADD,RED_ADD,YELLOW_ADD,RESET_LED_SEQUENCE,RESET_BUZZER_SEQUENCE,CHECK_CORRECT,PLAYER_SCORE_ADD,GAME_OVER};
+      dff timer[3];
+      
+    }
+  }
+  always {
+    //default values
+    alufn = 0;
+    asel = 0;
+    bsel = 0;
+    we = 0;
+    ra = 0;
+    rb = 0;
+    rc = 0;
+    wdsel = 0;
+    play_enable = 0;
+    rand_sel = 0;
+    timer.d = timer.q+1;
+    
+    //cases
+    case(state.q) {
+      state.GENERATE_BUZZER_SEQUENCE:
+        we = 1;
+        rc = 1;
+        wdsel = 0;
+        rand_sel = 0;
+        
+        if (reg[1] != 0){
+          state.d = state.GENERATE_LED_SEQUENCE;
+        }
+      state.GENERATE_LED_SEQUENCE:
+        we = 1;
+        rc = 0;
+        wdsel = 0;
+        rand_sel = 1;
+        timer.d = 0;
+        if (reg[0] != 0) {
+          state.d = state.GENERATE_FINAL_SEQUENCE;
+        }
+      state.GENERATE_FINAL_SEQUENCE:
+        if (timer.q == 1) {
+          state.d = state.PLAY_SEQUENCE;
+        }
+        alufn = b010110;
+        asel = 0;
+        bsel = 0;
+        we = 1;
+        ra = 0;
+        rb = 1;
+        rc = 0;
+        wdsel = 0;
+        timer.d = 1;
+      
+      state.PLAY_SEQUENCE:
+        we = 0;
+        play_enable = 1;
+        if (counter_sel[3] == 1) {
+          state.d = state.IDLE;
+        }
+      
+      state.IDLE:
+        if (blue == 1) {
+          state.d = state.BLUE_SHIFT;
+        }else if (green == 1) {
+          state.d = state.GREEN_SHIFT;
+        }else if (yellow ==1) {
+          state.d = state.YELLOW_SHIFT;
+        } else if (red ==1) {
+          state.d = state.RED_SHIFT;
+        }
+        
+        if (reg[5] == 8) {
+          state.d = state.RESET_LED_SEQUENCE;
+        }
+      state.BLUE_SHIFT:
+        alufn = b100000;
+        asel = 0;
+        bsel = b10;
+        we = 1;
+        ra = 3;
+        rc = 3;
+        wdsel = b10;
+        state.d = state.BUTTON_COUNTER;
+      
+      state.RED_SHIFT:
+        alufn = b100000;
+        asel = 0;
+        bsel = b10;
+        we = 1;
+        ra = 3;
+        rc = 3;
+        wdsel = b10;
+        state.d = state.RED_ADD;
+        
+      state.GREEN_SHIFT:
+        alufn = b100000;
+        asel = 0;
+        bsel = b10;
+        we = 1;
+        ra = 3;
+        rc = 3;
+        wdsel = b10;
+        state.d = state.GREEN_ADD;
+        
+      state.YELLOW_SHIFT:
+        alufn = b100000;
+        asel = 0;
+        bsel = b10;
+        we = 1;
+        ra = 3;
+        rc = 3;
+        wdsel = b10;
+        state.d = state.YELLOW_ADD;
+      
+      state.RED_ADD:
+        alufn = 0;
+        asel = 0;
+        bsel = b10;
+        we = 1;
+        ra = 3;
+        rc = 3;
+        wdsel = 2;
+        state.d = state.BUTTON_COUNTER;
+      
+      state.GREEN_ADD:
+        alufn = 0;
+        asel = 0;
+        bsel = b01;
+        we = 1;
+        ra = 3;
+        rc = 3;
+        wdsel = 2;
+        state.d = state.BUTTON_COUNTER;
+      
+      state.YELLOW_ADD:
+        alufn = 0;
+        asel = 0;
+        bsel = b11;
+        we = 1;
+        ra = 3;
+        rc = 3;
+        wdsel = 2;
+        state.d = state.BUTTON_COUNTER;
+      
+      state.BUTTON_COUNTER:
+        alufn = 0;
+        asel = 0;
+        bsel = 1;
+        we = 1;
+        ra = hA;
+        rc = hA;
+        wdsel = 2;
+      
+      state.RESET_LED_SEQUENCE:
+        alufn = 1;
+        asel = 0;
+        bsel = 0;
+        we = 1;
+        ra = 0;
+        rb = 0;
+        rc = 0;
+        wdsel = 2;
+      
+      state.RESET_BUZZER_SEQUENCE:
+        alufn = 1;
+        asel = 0;
+        bsel = 0;
+        we = 1;
+        ra = 1;
+        rb = 1;
+        rc = 1;
+        wdsel = 2;
+      
+      state.CHECK_CORRECT:
+        
+        
+        alufn = h33;
+        asel = 0;
+        bsel = 0;
+        we = 1;
+        ra = 0;
+        rb = 3;
+        rc = hB;
+        if (reg[11] == 1) {
+          state.d = state.PLAYER_SCORE_ADD;
+        } else if (reg[11] == 0) {
+          state.d = state.GAME_OVER;
+        }
+      
+      state.PLAYER_SCORE_ADD:
+        alufn = 0;
+        asel = 0;
+        bsel = 1;
+        ra = 4;
+        rc = 4;
+        state.d = state.GENERATE_BUZZER_SEQUENCE;
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+    }
+}
