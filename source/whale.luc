@@ -1,7 +1,8 @@
 module whale (
     input clk,  // clock
     input rst,  // reset
-    input reg[16][16],
+    //input reg[16][16],
+    input rb_data[16],
     input counter_sel[4],
     input blue,
     input green,
@@ -16,11 +17,12 @@ module whale (
     output rc[4],
     output wdsel[2],
     output play_enable,
+    output rand_next,
     output rand_sel
   ) {
   .clk(clk) {
     .rst(rst) {
-      fsm state = {GENERATE_BUZZER_SEQUENCE,GENERATE_LED_SEQUENCE,GENERATE_FINAL_SEQUENCE,PLAY_SEQUENCE, IDLE, BLUE_SHIFT, GREEN_SHIFT, RED_SHIFT,YELLOW_SHIFT,BUTTON_COUNTER,GREEN_ADD,RED_ADD,YELLOW_ADD,RESET_LED_SEQUENCE,RESET_BUZZER_SEQUENCE,CHECK_CORRECT,PLAYER_SCORE_ADD,GAME_OVER};
+      fsm state = {GENERATE_BUZZER_SEQUENCE,GENERATE_LED_SEQUENCE,GENERATE_FINAL_SEQUENCE,PLAY_SEQUENCE, IDLE, BLUE_SHIFT, GREEN_SHIFT, RED_SHIFT,YELLOW_SHIFT,BUTTON_COUNTER,GREEN_ADD,RED_ADD,YELLOW_ADD,RESET_LED_SEQUENCE,RESET_BUZZER_SEQUENCE,COMPUTE_CORRECT,CHECK_CORRECT,PLAYER_SCORE_ADD,GAME_OVER};
       dff timer[3];
       
     }
@@ -37,6 +39,7 @@ module whale (
     wdsel = 0;
     play_enable = 0;
     rand_sel = 0;
+    rand_next = 0;
     timer.d = timer.q+1;
     
     //cases
@@ -46,19 +49,21 @@ module whale (
         rc = 1;
         wdsel = 0;
         rand_sel = 0;
+        rand_next = 1;
         
-        if (reg[1] != 0){
+        //if (reg[1] != 0){
           state.d = state.GENERATE_LED_SEQUENCE;
-        }
+        //}
       state.GENERATE_LED_SEQUENCE:
         we = 1;
         rc = 0;
         wdsel = 0;
         rand_sel = 1;
+        rand_next = 1;
         timer.d = 0;
-        if (reg[0] != 0) {
+        //if (reg[0] != 0) {
           state.d = state.GENERATE_FINAL_SEQUENCE;
-        }
+        //}
       state.GENERATE_FINAL_SEQUENCE:
         if (timer.q == 1) {
           state.d = state.PLAY_SEQUENCE;
@@ -91,9 +96,13 @@ module whale (
           state.d = state.RED_SHIFT;
         }
         
-        if (reg[5] == 8) {
+        rb = 5;
+        
+        //if (reg[5] == 8) {
+        if (rb_data == 8) {
           state.d = state.RESET_LED_SEQUENCE;
         }
+        
       state.BLUE_SHIFT:
         alufn = b100000;
         asel = 0;
@@ -169,9 +178,10 @@ module whale (
         asel = 0;
         bsel = 1;
         we = 1;
-        ra = hA;
-        rc = hA;
+        ra = 5;
+        rc = 5;
         wdsel = 2;
+        state.d = state.IDLE;
       
       state.RESET_LED_SEQUENCE:
         alufn = 1;
@@ -182,6 +192,7 @@ module whale (
         rb = 0;
         rc = 0;
         wdsel = 2;
+        state.d = state.RESET_BUZZER_SEQUENCE;
       
       state.RESET_BUZZER_SEQUENCE:
         alufn = 1;
@@ -192,20 +203,27 @@ module whale (
         rb = 1;
         rc = 1;
         wdsel = 2;
+        state.d = state.COMPUTE_CORRECT;
       
-      state.CHECK_CORRECT:
-        
-        
+      state.COMPUTE_CORRECT:
         alufn = h33;
         asel = 0;
         bsel = 0;
         we = 1;
         ra = 0;
         rb = 3;
-        rc = hB;
-        if (reg[11] == 1) {
+        rc = 6;
+        state.d = state.CHECK_CORRECT;
+        
+      state.CHECK_CORRECT:
+        rb = 6;
+        
+        //if (reg[11] == 1) {
+        if (rb_data) {
+          // rb_data == 1 --> player is correct
           state.d = state.PLAYER_SCORE_ADD;
-        } else if (reg[11] == 0) {
+        //} else if (reg[11] == 0) {
+        } else {
           state.d = state.GAME_OVER;
         }
       
@@ -216,21 +234,6 @@ module whale (
         ra = 4;
         rc = 4;
         state.d = state.GENERATE_BUZZER_SEQUENCE;
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       
     }
 }
