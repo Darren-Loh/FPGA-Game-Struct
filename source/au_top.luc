@@ -19,7 +19,20 @@ module au_top (
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
     reset_conditioner reset_cond;
+    .rst(rst){
+      play_counter play_counter;
+      
+      rng_sequence rng_sequence;
+      whale whale;
+      
+      }
+    regfile regfile;
   }
+  play_notes play_notes;
+  
+  
+  
+  
   
   always {    
     reset_cond.in = ~rst_n; // input raw inverted reset signal
@@ -33,5 +46,32 @@ module au_top (
     // TODO:
     io_sel = 4h0;
     io_seg = 8h0;
+    
+    
+    //whale
+    //whale.
+    whale.counter_sel = play_counter.ctr_sel;
+    
+    //play counter
+    play_counter.enable = whale.play_enable;
+    
+    //play_notes
+    play_notes.enable = whale.play_enable;
+    play_notes.ctr_sel = play_counter.ctr_sel[2:0];
+    play_notes.ra = whale.ra;
+    play_notes.rb = whale.rb;
+    
+    //rng_sequence
+    rng_sequence.rand_sel = whale.rand_sel;
+    
+    //REGFILE
+    REGFILE.we = whale.we;
+    //REGFILE.write_data = whale.
+    REGFILE.ra = whale.ra;
+    REGFILE.rb = whale.rb;
+    REGFILE.rc = whale.rc;
+    
+    
+    
   }
 }
