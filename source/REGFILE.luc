@@ -1,0 +1,74 @@
+module regfile (
+    input clk,  // clock
+    input ra[4],
+    input rb[4],
+    input rc[4],
+    input write_data[16],
+    input we,
+    output radata[16],
+    output rbdata[16],
+    output player_score[16]
+    
+  ) {
+  
+    .clk(clk) {
+    dff reg0[16]; // led sequence
+    dff reg1[16]; // Buzzer sequence
+    dff reg2[16]; // Final sequence
+    dff reg3[16]; // player sequence input
+    dff reg4[16]; // player score
+    dff reg5[16];  // btn counter
+    dff reg6[16];  // check correct
+    
+  }
+
+  always {
+  
+  // write to rc
+    if(we==1 && rc ==0){
+      reg0.d = write_data;  
+  }
+    else if(we==1 && rc ==1){
+      reg1.d = write_data;  
+  }
+    else if(we==1 && rc ==2){
+      reg2.d = write_data;  
+  }
+    else if(we==1 && rc ==3){
+      reg3.d = write_data;  
+  }
+    else if(we==1 && rc ==4){
+      reg4.d = write_data;  
+  }
+    else if(we==1 && rc ==5){
+      reg5.d = write_data;  
+  }
+    else if(we==1 && rc ==6){
+      reg6.d = write_data;  
+  }
+    // read from ra
+    case (ra){
+      0: radata = reg0.q;
+      1: radata = reg1.q;
+      2: radata = reg2.q;
+      3: radata = reg3.q;
+      4: radata = reg4.q;
+      5: radata = reg5.q;
+      6: radata = reg6.q;
+      default: radata = 16h0000;
+      }
+    
+    // read from rb
+    case (rb){
+      0: rbdata = reg0.q;
+      1: rbdata = reg1.q;
+      2: rbdata = reg2.q;
+      3: rbdata = reg3.q;
+      4: rbdata = reg4.q;
+      5: rbdata = reg5.q;
+      6: rbdata = reg6.q;
+      default: rbdata = 16h0000;
+      }
+    player_score = reg4.q;
+
+}
