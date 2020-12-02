@@ -232,11 +232,15 @@ module whale_5 (
         we = 1'h1;
         ra = 2'h2;
         rb = 2'h3;
-        rc = 3'h6;
+        rc = 3'h7;
+        wdsel = 2'h1;
         M_state_d = CHECK_CORRECT_state;
       end
       CHECK_CORRECT_state: begin
-        rb = 3'h6;
+        rb = 3'h7;
+        rc = 3'h5;
+        we = 1'h1;
+        wdsel = 2'h2;
         if (rb_data[0+0-:1]) begin
           M_state_d = PLAYER_SCORE_ADD_state;
         end else begin
@@ -249,6 +253,8 @@ module whale_5 (
         bsel = 1'h1;
         ra = 3'h4;
         rc = 3'h4;
+        we = 1'h1;
+        wdsel = 1'h1;
         M_state_d = GENERATE_BUZZER_SEQUENCE_state;
       end
       GAME_OVER_state: begin

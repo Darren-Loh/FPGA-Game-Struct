@@ -2,14 +2,14 @@ pin buzz[0] B45;
 pin buzz[1] B48;
 
 pin rgb_led[0] C46;
-pin rgb_led[1] C49;
-pin rgb_led[2] C45;
+pin rgb_led[1] C45;
+pin rgb_led[2] C49;
 pin rgb_led[3] C48;
 
-pin button[0] C6 pulldown;
-pin button[1] C5 pulldown;
-pin button[2] C3 pulldown;
-pin button[3] C2 pulldown;
+pin button[0] C28 pulldown;
+pin button[1] C27 pulldown;
+pin button[2] C31 pulldown;
+pin button[3] C30 pulldown;
 
 //reset
 pin rst_n C9 pulldown;

@@ -11,7 +11,9 @@ module regfile (
     output player_score[16],
     output testing_reg5[8],
     output testing_reg2[16],
-    output testing_reg1[16]
+    output testing_reg1[16],
+    output testing_reg4[16],
+    output testing_reg7[16]
     
   ) {
   
@@ -23,6 +25,7 @@ module regfile (
     dff reg4[16](#INIT(1)); // player score
     dff reg5[16](#INIT(0));  // btn counter
     dff reg6[16](#INIT(0));  // check correct
+    dff reg7[16](#INIT(0));  // the real check correct
     
   }
 
@@ -32,6 +35,8 @@ module regfile (
   testing_reg5 = reg5.q[7:0];
   testing_reg2 = reg2.q;
   testing_reg1 = reg1.q;
+  testing_reg4 = reg4.q;
+  testing_reg7 = reg7.q;
   
   // write to rc
     if(we==1 && rc ==0){
@@ -54,6 +59,9 @@ module regfile (
   }
     else if(we==1 && rc ==6){
       reg6.d = wd_data;  
+  } 
+    else if(we==1 && rc ==7){
+      reg7.d = wd_data;
   }
     // read from ra
     case (ra){
@@ -64,6 +72,7 @@ module regfile (
       4: radata = reg4.q;
       5: radata = reg5.q;
       6: radata = reg6.q;
+      7: radata = reg7.q;
       default: radata = 16h0000;
       }
     
@@ -76,6 +85,7 @@ module regfile (
       4: rbdata = reg4.q;
       5: rbdata = reg5.q;
       6: rbdata = reg6.q;
+      7: rbdata = reg7.q;
       default: rbdata = 16h0000;
       }
     player_score = reg4.q;

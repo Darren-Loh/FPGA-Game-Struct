@@ -65,7 +65,9 @@ module au_top (
     reset_edge.in = reset_button.out;
     rst = reset_edge.out;
     
-    io_seg = 8h11;
+    // Set default start state
+    io_seg = 8h00;
+    io_sel = 4hf;
     io_led = 3x{{8h0}};
     led = 8h00;             // turn LEDs off
     usb_tx = usb_rx;        // echo the serial data
@@ -122,8 +124,9 @@ module au_top (
     // 1, 0, 3, 3, 1, 0, 0, 3 final this is wrong???
     
     // io testing
-    io_led[0][3:0] = regfile.testing_reg5;
+    io_led[0][2:0] = regfile.testing_reg5[3:0];
     //io_led[0][7:4] = c{button_cond3.out, button_cond2.out, button_cond1.out, button_cond0.out};
+    io_led[0][3] = play_counter.done;
     io_led[0][4] = button_cond0.out;
     io_led[0][5] = button_cond1.out;
     io_led[0][6] = button_cond2.out;
@@ -150,7 +153,7 @@ module au_top (
     // 7 seg
     decimal.binary = regfile.player_score;
     multi_seg.values = decimal.decimal;
-    io_sel = multi_seg.sel;
+    io_sel[1:0] = multi_seg.sel;
     io_seg = multi_seg.seg;
     
     // Muxes for ALU

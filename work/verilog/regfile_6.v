@@ -17,7 +17,9 @@ module regfile_6 (
     output reg [15:0] player_score,
     output reg [7:0] testing_reg5,
     output reg [15:0] testing_reg2,
-    output reg [15:0] testing_reg1
+    output reg [15:0] testing_reg1,
+    output reg [15:0] testing_reg4,
+    output reg [15:0] testing_reg7
   );
   
   
@@ -29,10 +31,12 @@ module regfile_6 (
   reg [15:0] M_reg4_d, M_reg4_q = 1'h1;
   reg [15:0] M_reg5_d, M_reg5_q = 1'h0;
   reg [15:0] M_reg6_d, M_reg6_q = 1'h0;
+  reg [15:0] M_reg7_d, M_reg7_q = 1'h0;
   
   always @* begin
     M_reg5_d = M_reg5_q;
     M_reg4_d = M_reg4_q;
+    M_reg7_d = M_reg7_q;
     M_reg6_d = M_reg6_q;
     M_reg1_d = M_reg1_q;
     M_reg0_d = M_reg0_q;
@@ -42,6 +46,8 @@ module regfile_6 (
     testing_reg5 = M_reg5_q[0+7-:8];
     testing_reg2 = M_reg2_q;
     testing_reg1 = M_reg1_q;
+    testing_reg4 = M_reg4_q;
+    testing_reg7 = M_reg7_q;
     if (we == 1'h1 && rc == 1'h0) begin
       M_reg0_d = wd_data;
     end else begin
@@ -62,6 +68,10 @@ module regfile_6 (
               end else begin
                 if (we == 1'h1 && rc == 3'h6) begin
                   M_reg6_d = wd_data;
+                end else begin
+                  if (we == 1'h1 && rc == 3'h7) begin
+                    M_reg7_d = wd_data;
+                  end
                 end
               end
             end
@@ -92,6 +102,9 @@ module regfile_6 (
       3'h6: begin
         radata = M_reg6_q;
       end
+      3'h7: begin
+        radata = M_reg7_q;
+      end
       default: begin
         radata = 16'h0000;
       end
@@ -119,6 +132,9 @@ module regfile_6 (
       3'h6: begin
         rbdata = M_reg6_q;
       end
+      3'h7: begin
+        rbdata = M_reg7_q;
+      end
       default: begin
         rbdata = 16'h0000;
       end
@@ -135,6 +151,7 @@ module regfile_6 (
       M_reg4_q <= 1'h1;
       M_reg5_q <= 1'h0;
       M_reg6_q <= 1'h0;
+      M_reg7_q <= 1'h0;
     end else begin
       M_reg0_q <= M_reg0_d;
       M_reg1_q <= M_reg1_d;
@@ -143,6 +160,7 @@ module regfile_6 (
       M_reg4_q <= M_reg4_d;
       M_reg5_q <= M_reg5_d;
       M_reg6_q <= M_reg6_d;
+      M_reg7_q <= M_reg7_d;
     end
   end
   

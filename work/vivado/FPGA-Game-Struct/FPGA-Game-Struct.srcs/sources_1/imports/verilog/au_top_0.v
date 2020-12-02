@@ -160,6 +160,8 @@ module au_top_0 (
   wire [8-1:0] M_regfile_testing_reg5;
   wire [16-1:0] M_regfile_testing_reg2;
   wire [16-1:0] M_regfile_testing_reg1;
+  wire [16-1:0] M_regfile_testing_reg4;
+  wire [16-1:0] M_regfile_testing_reg7;
   reg [4-1:0] M_regfile_ra;
   reg [4-1:0] M_regfile_rb;
   reg [4-1:0] M_regfile_rc;
@@ -178,7 +180,9 @@ module au_top_0 (
     .player_score(M_regfile_player_score),
     .testing_reg5(M_regfile_testing_reg5),
     .testing_reg2(M_regfile_testing_reg2),
-    .testing_reg1(M_regfile_testing_reg1)
+    .testing_reg1(M_regfile_testing_reg1),
+    .testing_reg4(M_regfile_testing_reg4),
+    .testing_reg7(M_regfile_testing_reg7)
   );
   wire [8-1:0] M_multi_seg_seg;
   wire [2-1:0] M_multi_seg_sel;
@@ -232,7 +236,8 @@ module au_top_0 (
     M_reset_button_in = rst_n;
     M_reset_edge_in = M_reset_button_out;
     rst = M_reset_edge_out;
-    io_seg = 8'h11;
+    io_seg = 8'h00;
+    io_sel = 4'hf;
     io_led = 24'h000000;
     led = 8'h00;
     usb_tx = usb_rx;
@@ -264,8 +269,12 @@ module au_top_0 (
       rgb_led[2+0-:1] = 1'h1;
       rgb_led[3+0-:1] = 1'h1;
     end
-    io_led[0+0+3-:4] = M_regfile_testing_reg5;
-    io_led[0+4+3-:4] = {M_button_cond3_out, M_button_cond2_out, M_button_cond1_out, M_button_cond0_out};
+    io_led[0+0+2-:3] = M_regfile_testing_reg5[0+3-:4];
+    io_led[0+3+0-:1] = M_play_counter_done;
+    io_led[0+4+0-:1] = M_button_cond0_out;
+    io_led[0+5+0-:1] = M_button_cond1_out;
+    io_led[0+6+0-:1] = M_button_cond2_out;
+    io_led[0+7+0-:1] = M_button_cond3_out;
     io_led[8+15-:16] = M_regfile_testing_reg2;
     M_rng_sequence_rand_sel = M_whale_rand_sel;
     M_rng_sequence_next = M_whale_rand_next;
@@ -276,7 +285,7 @@ module au_top_0 (
     M_alu_alufn = M_whale_alufn;
     M_decimal_binary = M_regfile_player_score;
     M_multi_seg_values = M_decimal_decimal;
-    io_sel = M_multi_seg_sel;
+    io_sel[0+1-:2] = M_multi_seg_sel;
     io_seg = M_multi_seg_seg;
     
     case (M_whale_asel)
