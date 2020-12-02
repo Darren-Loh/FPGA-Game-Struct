@@ -1,0 +1,23 @@
+// Code from https://alchitry.com/blogs/tutorials/io-element
+
+module seven_seg (
+    input char[4],
+    output segs[8]
+  ) {
+ 
+  always {
+    case (char) {
+      0: segs = 8b00111111;
+      1: segs = 8b00000110;
+      2: segs = 8b01011011;
+      3: segs = 8b01001111;
+      4: segs = 8b01100110;
+      5: segs = 8b01101101;
+      6: segs = 8b01111101;
+      7: segs = 8b00000111;
+      8: segs = 8b01111111;
+      9: segs = 8b01100111;
+      default: segs = 8b00000000;
+    }
+  }
+}

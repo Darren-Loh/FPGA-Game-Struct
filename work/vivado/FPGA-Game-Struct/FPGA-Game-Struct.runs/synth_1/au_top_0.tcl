@@ -84,7 +84,24 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
-  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/reset_conditioner_1.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/alu_8.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/button_conditioner_1.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/counter_12.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/counter_15.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/decimal_counter_10.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/decoder_17.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/edge_detector_2.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/multi_seven_seg_7.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/pipeline_11.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/play_counter_3.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/play_notes_9.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/pn_gen_13.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/regfile_6.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/rng_sequence_4.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/seven_seg_16.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/sig_selector_14.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/sig_selector_18.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/whale_5.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/au_top_0.v}
 }
 OPTRACE "Adding files" END { }
@@ -96,14 +113,11 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/constraint/io.xdc}}
-set_property used_in_implementation false [get_files {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/constraint/io.xdc}}]
+read_xdc {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/constraint/custom.xdc}}
+set_property used_in_implementation false [get_files {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/constraint/custom.xdc}}]
 
-read_xdc C:/Users/JK/Desktop/Computing/Alchitry/library/components/au.xdc
-set_property used_in_implementation false [get_files C:/Users/JK/Desktop/Computing/Alchitry/library/components/au.xdc]
-
-read_xdc {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/constraint/alchitry.xdc}}
-set_property used_in_implementation false [get_files {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/constraint/alchitry.xdc}}]
+read_xdc {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/constraint/au_custom.xdc}}
+set_property used_in_implementation false [get_files {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/constraint/au_custom.xdc}}]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]

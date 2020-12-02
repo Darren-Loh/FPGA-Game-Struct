@@ -9,6 +9,9 @@ module au_top_0 (
     input rst_n,
     output reg [3:0] io_sel,
     output reg [7:0] io_seg,
+    input [3:0] button,
+    output reg [1:0] buzz,
+    output reg [3:0] rgb_led,
     input [4:0] io_button,
     input [23:0] io_dip,
     output reg [23:0] io_led,
@@ -21,21 +24,307 @@ module au_top_0 (
   
   reg rst;
   
-  wire [1-1:0] M_reset_cond_out;
-  reg [1-1:0] M_reset_cond_in;
-  reset_conditioner_1 reset_cond (
+  wire [1-1:0] M_button_cond0_out;
+  reg [1-1:0] M_button_cond0_in;
+  button_conditioner_1 button_cond0 (
     .clk(clk),
-    .in(M_reset_cond_in),
-    .out(M_reset_cond_out)
+    .in(M_button_cond0_in),
+    .out(M_button_cond0_out)
+  );
+  wire [1-1:0] M_button_cond1_out;
+  reg [1-1:0] M_button_cond1_in;
+  button_conditioner_1 button_cond1 (
+    .clk(clk),
+    .in(M_button_cond1_in),
+    .out(M_button_cond1_out)
+  );
+  wire [1-1:0] M_button_cond2_out;
+  reg [1-1:0] M_button_cond2_in;
+  button_conditioner_1 button_cond2 (
+    .clk(clk),
+    .in(M_button_cond2_in),
+    .out(M_button_cond2_out)
+  );
+  wire [1-1:0] M_button_cond3_out;
+  reg [1-1:0] M_button_cond3_in;
+  button_conditioner_1 button_cond3 (
+    .clk(clk),
+    .in(M_button_cond3_in),
+    .out(M_button_cond3_out)
+  );
+  wire [1-1:0] M_reset_button_out;
+  reg [1-1:0] M_reset_button_in;
+  button_conditioner_1 reset_button (
+    .clk(clk),
+    .in(M_reset_button_in),
+    .out(M_reset_button_out)
+  );
+  wire [1-1:0] M_button_edge0_out;
+  reg [1-1:0] M_button_edge0_in;
+  edge_detector_2 button_edge0 (
+    .clk(clk),
+    .in(M_button_edge0_in),
+    .out(M_button_edge0_out)
+  );
+  wire [1-1:0] M_button_edge1_out;
+  reg [1-1:0] M_button_edge1_in;
+  edge_detector_2 button_edge1 (
+    .clk(clk),
+    .in(M_button_edge1_in),
+    .out(M_button_edge1_out)
+  );
+  wire [1-1:0] M_button_edge2_out;
+  reg [1-1:0] M_button_edge2_in;
+  edge_detector_2 button_edge2 (
+    .clk(clk),
+    .in(M_button_edge2_in),
+    .out(M_button_edge2_out)
+  );
+  wire [1-1:0] M_button_edge3_out;
+  reg [1-1:0] M_button_edge3_in;
+  edge_detector_2 button_edge3 (
+    .clk(clk),
+    .in(M_button_edge3_in),
+    .out(M_button_edge3_out)
+  );
+  wire [1-1:0] M_reset_edge_out;
+  reg [1-1:0] M_reset_edge_in;
+  edge_detector_2 reset_edge (
+    .clk(clk),
+    .in(M_reset_edge_in),
+    .out(M_reset_edge_out)
+  );
+  wire [1-1:0] M_play_counter_done;
+  wire [3-1:0] M_play_counter_ctr_sel;
+  reg [1-1:0] M_play_counter_enable;
+  play_counter_3 play_counter (
+    .clk(clk),
+    .rst(rst),
+    .enable(M_play_counter_enable),
+    .done(M_play_counter_done),
+    .ctr_sel(M_play_counter_ctr_sel)
+  );
+  wire [16-1:0] M_rng_sequence_out;
+  reg [1-1:0] M_rng_sequence_next;
+  reg [1-1:0] M_rng_sequence_rand_sel;
+  rng_sequence_4 rng_sequence (
+    .clk(clk),
+    .rst(rst),
+    .next(M_rng_sequence_next),
+    .rand_sel(M_rng_sequence_rand_sel),
+    .out(M_rng_sequence_out)
+  );
+  wire [6-1:0] M_whale_alufn;
+  wire [2-1:0] M_whale_asel;
+  wire [2-1:0] M_whale_bsel;
+  wire [1-1:0] M_whale_we;
+  wire [4-1:0] M_whale_ra;
+  wire [4-1:0] M_whale_rb;
+  wire [4-1:0] M_whale_rc;
+  wire [2-1:0] M_whale_wdsel;
+  wire [1-1:0] M_whale_play_enable;
+  wire [1-1:0] M_whale_rand_next;
+  wire [1-1:0] M_whale_rand_sel;
+  wire [1-1:0] M_whale_game_over;
+  reg [16-1:0] M_whale_rb_data;
+  reg [1-1:0] M_whale_counter_sel;
+  reg [1-1:0] M_whale_blue;
+  reg [1-1:0] M_whale_green;
+  reg [1-1:0] M_whale_red;
+  reg [1-1:0] M_whale_yellow;
+  whale_5 whale (
+    .clk(clk),
+    .rst(rst),
+    .rb_data(M_whale_rb_data),
+    .counter_sel(M_whale_counter_sel),
+    .blue(M_whale_blue),
+    .green(M_whale_green),
+    .red(M_whale_red),
+    .yellow(M_whale_yellow),
+    .alufn(M_whale_alufn),
+    .asel(M_whale_asel),
+    .bsel(M_whale_bsel),
+    .we(M_whale_we),
+    .ra(M_whale_ra),
+    .rb(M_whale_rb),
+    .rc(M_whale_rc),
+    .wdsel(M_whale_wdsel),
+    .play_enable(M_whale_play_enable),
+    .rand_next(M_whale_rand_next),
+    .rand_sel(M_whale_rand_sel),
+    .game_over(M_whale_game_over)
+  );
+  wire [16-1:0] M_regfile_radata;
+  wire [16-1:0] M_regfile_rbdata;
+  wire [16-1:0] M_regfile_player_score;
+  wire [8-1:0] M_regfile_testing_reg5;
+  wire [16-1:0] M_regfile_testing_reg2;
+  wire [16-1:0] M_regfile_testing_reg1;
+  reg [4-1:0] M_regfile_ra;
+  reg [4-1:0] M_regfile_rb;
+  reg [4-1:0] M_regfile_rc;
+  reg [16-1:0] M_regfile_wd_data;
+  reg [1-1:0] M_regfile_we;
+  regfile_6 regfile (
+    .clk(clk),
+    .rst(rst),
+    .ra(M_regfile_ra),
+    .rb(M_regfile_rb),
+    .rc(M_regfile_rc),
+    .wd_data(M_regfile_wd_data),
+    .we(M_regfile_we),
+    .radata(M_regfile_radata),
+    .rbdata(M_regfile_rbdata),
+    .player_score(M_regfile_player_score),
+    .testing_reg5(M_regfile_testing_reg5),
+    .testing_reg2(M_regfile_testing_reg2),
+    .testing_reg1(M_regfile_testing_reg1)
+  );
+  wire [8-1:0] M_multi_seg_seg;
+  wire [2-1:0] M_multi_seg_sel;
+  reg [8-1:0] M_multi_seg_values;
+  multi_seven_seg_7 multi_seg (
+    .clk(clk),
+    .rst(rst),
+    .values(M_multi_seg_values),
+    .seg(M_multi_seg_seg),
+    .sel(M_multi_seg_sel)
+  );
+  
+  wire [16-1:0] M_alu_out;
+  reg [6-1:0] M_alu_alufn;
+  reg [16-1:0] M_alu_a;
+  reg [16-1:0] M_alu_b;
+  alu_8 alu (
+    .alufn(M_alu_alufn),
+    .a(M_alu_a),
+    .b(M_alu_b),
+    .out(M_alu_out)
+  );
+  
+  wire [16-1:0] M_play_notes_test_ra;
+  wire [1-1:0] M_play_notes_buzz_high;
+  wire [1-1:0] M_play_notes_buzz_low;
+  wire [4-1:0] M_play_notes_led;
+  reg [16-1:0] M_play_notes_ra;
+  reg [16-1:0] M_play_notes_rb;
+  reg [3-1:0] M_play_notes_ctr_sel;
+  reg [1-1:0] M_play_notes_enable;
+  play_notes_9 play_notes (
+    .ra(M_play_notes_ra),
+    .rb(M_play_notes_rb),
+    .ctr_sel(M_play_notes_ctr_sel),
+    .enable(M_play_notes_enable),
+    .test_ra(M_play_notes_test_ra),
+    .buzz_high(M_play_notes_buzz_high),
+    .buzz_low(M_play_notes_buzz_low),
+    .led(M_play_notes_led)
+  );
+  
+  wire [8-1:0] M_decimal_decimal;
+  reg [4-1:0] M_decimal_binary;
+  decimal_counter_10 decimal (
+    .binary(M_decimal_binary),
+    .decimal(M_decimal_decimal)
   );
   
   always @* begin
-    M_reset_cond_in = ~rst_n;
-    rst = M_reset_cond_out;
+    M_reset_button_in = rst_n;
+    M_reset_edge_in = M_reset_button_out;
+    rst = M_reset_edge_out;
+    io_seg = 8'h11;
     io_led = 24'h000000;
     led = 8'h00;
     usb_tx = usb_rx;
-    io_sel = 4'h0;
-    io_seg = 8'h00;
+    M_whale_counter_sel = M_play_counter_done;
+    M_whale_rb_data = M_regfile_rbdata;
+    M_button_cond0_in = button[0+0-:1];
+    M_button_cond1_in = button[1+0-:1];
+    M_button_cond2_in = button[2+0-:1];
+    M_button_cond3_in = button[3+0-:1];
+    M_button_edge0_in = M_button_cond0_out;
+    M_button_edge1_in = M_button_cond1_out;
+    M_button_edge2_in = M_button_cond2_out;
+    M_button_edge3_in = M_button_cond3_out;
+    M_whale_blue = M_button_edge0_out;
+    M_whale_green = M_button_edge1_out;
+    M_whale_red = M_button_edge2_out;
+    M_whale_yellow = M_button_edge3_out;
+    M_play_counter_enable = M_whale_play_enable;
+    M_play_notes_enable = M_whale_play_enable;
+    M_play_notes_ctr_sel = M_play_counter_ctr_sel;
+    M_play_notes_ra = M_regfile_radata;
+    M_play_notes_rb = M_regfile_rbdata;
+    buzz[0+0-:1] = M_play_notes_buzz_low;
+    buzz[1+0-:1] = M_play_notes_buzz_high;
+    rgb_led[0+3-:4] = M_play_notes_led;
+    if (M_whale_game_over) begin
+      rgb_led[0+0-:1] = 1'h1;
+      rgb_led[1+0-:1] = 1'h1;
+      rgb_led[2+0-:1] = 1'h1;
+      rgb_led[3+0-:1] = 1'h1;
+    end
+    io_led[0+0+3-:4] = M_regfile_testing_reg5;
+    io_led[0+4+3-:4] = {M_button_cond3_out, M_button_cond2_out, M_button_cond1_out, M_button_cond0_out};
+    io_led[8+15-:16] = M_regfile_testing_reg2;
+    M_rng_sequence_rand_sel = M_whale_rand_sel;
+    M_rng_sequence_next = M_whale_rand_next;
+    M_regfile_ra = M_whale_ra;
+    M_regfile_rb = M_whale_rb;
+    M_regfile_rc = M_whale_rc;
+    M_regfile_we = M_whale_we;
+    M_alu_alufn = M_whale_alufn;
+    M_decimal_binary = M_regfile_player_score;
+    M_multi_seg_values = M_decimal_decimal;
+    io_sel = M_multi_seg_sel;
+    io_seg = M_multi_seg_seg;
+    
+    case (M_whale_asel)
+      1'h0: begin
+        M_alu_a = M_regfile_radata;
+      end
+      1'h1: begin
+        M_alu_a = 16'h0001;
+      end
+      2'h2: begin
+        M_alu_a = 16'h0002;
+      end
+      default: begin
+        M_alu_a = 16'h0000;
+      end
+    endcase
+    
+    case (M_whale_bsel)
+      1'h0: begin
+        M_alu_b = M_regfile_rbdata;
+      end
+      1'h1: begin
+        M_alu_b = 16'h0001;
+      end
+      2'h2: begin
+        M_alu_b = 16'h0002;
+      end
+      2'h3: begin
+        M_alu_b = 16'h0003;
+      end
+      default: begin
+        M_alu_b = 16'h0000;
+      end
+    endcase
+    
+    case (M_whale_wdsel)
+      2'h0: begin
+        M_regfile_wd_data = M_rng_sequence_out;
+      end
+      2'h1: begin
+        M_regfile_wd_data = M_alu_out;
+      end
+      2'h2: begin
+        M_regfile_wd_data = 16'h0000;
+      end
+      default: begin
+        M_regfile_wd_data = 16'h0000;
+      end
+    endcase
   end
 endmodule

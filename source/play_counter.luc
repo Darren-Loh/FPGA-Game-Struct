@@ -3,12 +3,12 @@ module play_counter (
     input rst,  // reset
     input enable,
     output done,
-    output ctr_sel[4]
+    output ctr_sel[3]
   ) {
   
   .clk(clk) {
     edge_detector en_edge (#RISE(1), #FALL(0));
-    counter ctr (#SIZE(4), #DIV(25));
+    counter ctr (#SIZE(4), #DIV(27));
   }
   
   always {
@@ -26,7 +26,7 @@ module play_counter (
       done = ctr.value[3];
     } else {
       // Default when not activated
-      ctr_sel = 4h0;
+      ctr_sel = 3h0;
       done = 0;
     }
   }

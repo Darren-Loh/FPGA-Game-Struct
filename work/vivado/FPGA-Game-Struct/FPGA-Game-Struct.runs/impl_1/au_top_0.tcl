@@ -136,9 +136,8 @@ OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
   add_files -quiet {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.runs/synth_1/au_top_0.dcp}}
 OPTRACE "read constraints: implementation" START { }
-  read_xdc {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/constraint/io.xdc}}
-  read_xdc C:/Users/JK/Desktop/Computing/Alchitry/library/components/au.xdc
-  read_xdc {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/constraint/alchitry.xdc}}
+  read_xdc {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/constraint/custom.xdc}}
+  read_xdc {{C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/constraint/au_custom.xdc}}
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }

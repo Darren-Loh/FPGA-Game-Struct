@@ -2,21 +2,24 @@
 <project name="FPGA-Game-Struct" board="Alchitry Au" language="Lucid" version="3">
   <files>
     <src>play_counter.luc</src>
-    <component>edge_detector.luc</component>
-    <component>pipeline.luc</component>
-    <src>regfile.luc</src>
-    <component>counter.luc</component>
-    <component>decoder.luc</component>
-    <src>whale.luc</src>
-    <src>sig_selector.luc</src>
+    <src>multi_seven_seg.luc</src>
     <component>button_conditioner.luc</component>
-    <component>pn_gen.luc</component>
-    <src>play_notes.luc</src>
-    <src top="true">au_top.luc</src>
     <component>reset_conditioner.luc</component>
+    <src>whale.luc</src>
+    <component>decoder.luc</component>
+    <src>decimal_counter.luc</src>
+    <component>counter.luc</component>
+    <src>seven_seg.luc</src>
+    <src>alu.luc</src>
+    <src>regfile.luc</src>
+    <src top="true">au_top.luc</src>
+    <src>sig_selector.luc</src>
+    <component>edge_detector.luc</component>
     <src>rng_sequence.luc</src>
-    <constraint lib="true">io.acf</constraint>
-    <constraint lib="true">au.xdc</constraint>
-    <constraint lib="true">alchitry.acf</constraint>
+    <component>pn_gen.luc</component>
+    <component>pipeline.luc</component>
+    <src>play_notes.luc</src>
+    <constraint>custom.acf</constraint>
+    <constraint>au_custom.xdc</constraint>
   </files>
 </project>

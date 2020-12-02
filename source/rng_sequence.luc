@@ -17,7 +17,7 @@ module rng_sequence (
   
   
   always {
-    rnd_gen.seed = 32hDEADBEEF;
+    rnd_gen.seed = 32hDAEEAADE; // 32hDEADBEEF;
     rnd_gen.next = next;
     duplicate.value = 0;
     

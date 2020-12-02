@@ -3,6 +3,7 @@ module play_notes (
     input rb[16],
     input ctr_sel[3],
     input enable,
+    output test_ra[16],
     output buzz_high,
     output buzz_low,
     output led[4]
@@ -17,6 +18,7 @@ module play_notes (
   always {
     led_split.value = ra;
     buzz_split.value = rb;
+    test_ra = ra;
     
     // Off when not enabled
     led[3:0] = 4h0;

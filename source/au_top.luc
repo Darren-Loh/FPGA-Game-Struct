@@ -4,6 +4,10 @@ module au_top (
     output io_sel[4],
     output io_seg[8],
     
+    input button[4],
+    output buzz[2],
+    output rgb_led[4],
+    
     // Unused
     input io_button[5],
     input io_dip[3][8],
@@ -18,60 +22,165 @@ module au_top (
   .clk(clk) {
     // The reset conditioner is used to synchronize the reset signal to the FPGA
     // clock. This ensures the entire FPGA comes out of reset at the same time.
-    reset_conditioner reset_cond;
+//reset_conditioner reset_cond;
+    button_conditioner button_cond0;
+    button_conditioner button_cond1;
+    button_conditioner button_cond2;
+    button_conditioner button_cond3;
+    
+    button_conditioner reset_button;
+   
+    edge_detector button_edge0 (#RISE(1), #FALL(0));
+    edge_detector button_edge1 (#RISE(1), #FALL(0));
+    edge_detector button_edge2 (#RISE(1), #FALL(0));
+    edge_detector button_edge3 (#RISE(1), #FALL(0));
+    
+    edge_detector reset_edge (#RISE(1), #FALL(0));
+    
     .rst(rst){
       play_counter play_counter;
-      
       rng_sequence rng_sequence;
       whale whale;
-      
-      }
-    regfile regfile;
+      regfile regfile;
+      multi_seven_seg multi_seg(#DIGITS(2));
+    }
+
   }
+  
+  // rst button not working
+  // button edge detector may not be working
+  // sequence same all the time
+  // led light not present
+  // low buzzer sounds all the time
+  
+  alu alu;
   play_notes play_notes;
-  
-  
-  
-  
+  decimal_counter decimal;
   
   always {    
-    reset_cond.in = ~rst_n; // input raw inverted reset signal
-    rst = reset_cond.out;   // conditioned reset
+    //reset_cond.in = ~rst_n; // input raw inverted reset signal
+    //rst = reset_cond.out;   // conditioned reset
     
+    reset_button.in = rst_n;
+    reset_edge.in = reset_button.out;
+    rst = reset_edge.out;
+    
+    io_seg = 8h11;
     io_led = 3x{{8h0}};
     led = 8h00;             // turn LEDs off
     usb_tx = usb_rx;        // echo the serial data
+
+    // whale
+    whale.counter_sel = play_counter.done;
+    whale.rb_data = regfile.rbdata;
+    // buttons io
+    //button_cond.in = button;  // TODO: Untested implementation
+    //button_edge.in = button_cond.out;
+    //whale.blue = button_edge.out[0];
+    //whale.green = button_edge.out[1];
+    //whale.red = button_edge.out[2];
+    //whale.yellow = button_edge.out[3];
     
+    button_cond0.in = button[0];
+    button_cond1.in = button[1];
+    button_cond2.in = button[2];
+    button_cond3.in = button[3];
     
-    // TODO:
-    io_sel = 4h0;
-    io_seg = 8h0;
+    button_edge0.in = button_cond0.out;
+    button_edge1.in = button_cond1.out;
+    button_edge2.in = button_cond2.out;
+    button_edge3.in = button_cond3.out;
     
+    whale.blue = button_edge0.out;
+    whale.green = button_edge1.out;
+    whale.red = button_edge2.out;
+    whale.yellow = button_edge3.out;
     
-    //whale
-    //whale.
-    whale.counter_sel = play_counter.ctr_sel;
-    
-    //play counter
+    // play counter
     play_counter.enable = whale.play_enable;
     
-    //play_notes
+    // play_notes
     play_notes.enable = whale.play_enable;
-    play_notes.ctr_sel = play_counter.ctr_sel[2:0];
-    play_notes.ra = whale.ra;
-    play_notes.rb = whale.rb;
+    play_notes.ctr_sel = play_counter.ctr_sel;
+    play_notes.ra = regfile.radata;
+    play_notes.rb = regfile.rbdata;
+    buzz[0] = play_notes.buzz_low;
+    buzz[1] = play_notes.buzz_high;
+    rgb_led[3:0] = play_notes.led;
     
-    //rng_sequence
+    if (whale.game_over) {
+      rgb_led[0] = 1;
+      rgb_led[1] = 1;
+      rgb_led[2] = 1;
+      rgb_led[3] = 1;
+    }
+    
+    ///  Buzz
+    
+    // 2, 0, 0, 0, 2, 3, 0, 0 LED
+    // 1, 0, 1, 1, 1, 1, 0, 1 Buzz 
+    // 1, 0, 3, 3, 1, 0, 0, 3 final this is wrong???
+    
+    // io testing
+    io_led[0][3:0] = regfile.testing_reg5;
+    //io_led[0][7:4] = c{button_cond3.out, button_cond2.out, button_cond1.out, button_cond0.out};
+    io_led[0][4] = button_cond0.out;
+    io_led[0][5] = button_cond1.out;
+    io_led[0][6] = button_cond2.out;
+    io_led[0][7] = button_cond3.out;
+    
+    io_led[2:1] = $build(regfile.testing_reg2,2);
+    //io_led[2][1:0] = c{play_notes.buzz_high, play_notes.buzz_low};
+    
+    
+    // rng_sequence
     rng_sequence.rand_sel = whale.rand_sel;
+    rng_sequence.next = whale.rand_next;
     
-    //REGFILE
-    REGFILE.we = whale.we;
-    //REGFILE.write_data = whale.
-    REGFILE.ra = whale.ra;
-    REGFILE.rb = whale.rb;
-    REGFILE.rc = whale.rc;
+    // regfile
+    regfile.ra = whale.ra;
+    regfile.rb = whale.rb;
+    regfile.rc = whale.rc;
+    regfile.we = whale.we;
     
+    // alu
+    alu.alufn = whale.alufn;
     
+    // TODO: regfile.player_score connect to 7 seg
+    // 7 seg
+    decimal.binary = regfile.player_score;
+    multi_seg.values = decimal.decimal;
+    io_sel = multi_seg.sel;
+    io_seg = multi_seg.seg;
     
+    // Muxes for ALU
+    case (whale.asel) {
+      0: alu.a = regfile.radata;
+      1: alu.a = 16h01;
+      2: alu.a = 16h02;
+      
+      default:
+        alu.a = 16h00;
+    }
+    
+    case (whale.bsel) {
+      0: alu.b = regfile.rbdata;
+      1: alu.b = 16h01;
+      2: alu.b = 16h02;
+      3: alu.b = 16h03;
+      
+      default:
+        alu.b = 16h00;
+    }
+    
+    case (whale.wdsel) {
+      2b00: regfile.wd_data = rng_sequence.out;
+      2b01: regfile.wd_data = alu.out;
+      2b10: regfile.wd_data = 16h00;
+      
+      default:
+        regfile.wd_data = 16h00;
+    }
+      
   }
 }

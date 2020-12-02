@@ -1,50 +1,59 @@
 module regfile (
     input clk,  // clock
+    input rst,
     input ra[4],
     input rb[4],
     input rc[4],
-    input write_data[16],
+    input wd_data[16],
     input we,
     output radata[16],
     output rbdata[16],
-    output player_score[16]
+    output player_score[16],
+    output testing_reg5[8],
+    output testing_reg2[16],
+    output testing_reg1[16]
     
   ) {
   
-    .clk(clk) {
+    .clk(clk), .rst(rst) {
     dff reg0[16]; // led sequence
     dff reg1[16]; // Buzzer sequence
     dff reg2[16]; // Final sequence
     dff reg3[16]; // player sequence input
-    dff reg4[16]; // player score
-    dff reg5[16];  // btn counter
-    dff reg6[16];  // check correct
+    dff reg4[16](#INIT(1)); // player score
+    dff reg5[16](#INIT(0));  // btn counter
+    dff reg6[16](#INIT(0));  // check correct
     
   }
 
   always {
   
+  // testing_reg5
+  testing_reg5 = reg5.q[7:0];
+  testing_reg2 = reg2.q;
+  testing_reg1 = reg1.q;
+  
   // write to rc
     if(we==1 && rc ==0){
-      reg0.d = write_data;  
+      reg0.d = wd_data;  
   }
     else if(we==1 && rc ==1){
-      reg1.d = write_data;  
+      reg1.d = wd_data;  
   }
     else if(we==1 && rc ==2){
-      reg2.d = write_data;  
+      reg2.d = wd_data;  
   }
     else if(we==1 && rc ==3){
-      reg3.d = write_data;  
+      reg3.d = wd_data;  
   }
     else if(we==1 && rc ==4){
-      reg4.d = write_data;  
+      reg4.d = wd_data;  
   }
     else if(we==1 && rc ==5){
-      reg5.d = write_data;  
+      reg5.d = wd_data;  
   }
     else if(we==1 && rc ==6){
-      reg6.d = write_data;  
+      reg6.d = wd_data;  
   }
     // read from ra
     case (ra){

@@ -1,0 +1,15 @@
+module decimal_counter (
+    input binary[4],
+    output decimal[2][4]
+  ) {
+
+  always {
+    if (binary <= 4h9) {
+      // under 9 -> store as per normal
+      decimal[0] = binary;
+      decimal[1] = 4h0;
+    } else {
+      // above 9, split into first and second digit
+      decimal[0] = binary - 4hA;
+      decimal[1] = 4h1;
+}

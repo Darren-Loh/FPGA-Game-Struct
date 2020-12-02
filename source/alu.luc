@@ -1,0 +1,18 @@
+module alu (
+    input alufn[6],
+    input a[16],
+    input b[16],
+    output out[16]
+  ) {
+
+  always {
+    case (alufn) {
+      6b000000: out = a + b;  // Add
+      6b000001: out = a - b;  // Sub
+      6b110011: out = c{15b0, (a == b)};  // CMPEQ
+      6b010110: out = a ^ b;  // Xor
+      6b100000: out = a << b; // SHL
+      default: out = 16h00;
+    }
+  }
+}
