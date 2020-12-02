@@ -1,0 +1,16 @@
+module multiply_single_layer (
+    input a[16],
+    input b[16],
+    output s[16]
+  ) {
+full_adder adder[16];
+  always {
+    
+    adder.cin[0] = 0;
+    adder.x = a;
+    adder.y = b;
+    adder.cin[15:1] = adder.cout[14:0];
+    s = adder.s;
+    
+  }
+}

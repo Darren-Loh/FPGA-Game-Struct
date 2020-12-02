@@ -1,0 +1,18 @@
+module find_zvn (
+    input s[16],
+    input x15,
+    input y15,
+    input alufn0,
+    output z,
+    output v,
+    output n
+  ) {
+  
+  
+
+  always {
+    z = ~|s;
+    v = (x15 & (y15^alufn0) & !s[15]) | (!x15 & !(y15 ^ alufn0) & s[15]);
+    n = s[15];
+  }
+}

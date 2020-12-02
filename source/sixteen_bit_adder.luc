@@ -1,0 +1,19 @@
+module sixteen_bit_adder (
+    input x[16], //16 bit x input 
+    input y[16], //16 bit y input 
+    input cin,  //carry input
+    output s[16], //sum output
+    output cout //carry output for future expansion? currently unused
+    
+  ) {
+  full_adder fulladder[16]; //instantiate 16 copies of full_adder
+  always {
+    fulladder.x = x;
+    fulladder.y = y;
+    fulladder.cin[0] = cin;
+    fulladder.cin[15:1] = fulladder.cout[14:0];
+    s = fulladder.s;
+    cout = fulladder.cout[15];
+    
+  }
+}

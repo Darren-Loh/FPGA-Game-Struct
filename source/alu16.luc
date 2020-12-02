@@ -1,0 +1,95 @@
+module alu16 (
+    
+    input alufn[6],
+    input a[16],
+    input b[16],
+    output out[16],
+    output z_out,
+    output v_out,
+    output n_out
+  ) {
+  ytoystar ytoystar;
+  sixteen_bit_adder sixteenbitadder;
+  compare16 compare;
+  shift16 shift;
+  boole16 boole;
+  find_zvn zvn;
+  sig s[16]; // result of the adder as an intermediary connector
+  sig c[16]; //result of compare unit
+  sig sh[16]; //result of shifter
+  sig bool[16]; // result of boolean unit
+  sig z,v,n; // result of z,v,n to be passed to the compare unit
+  sig overflow[16];
+  always {
+    ytoystar.y = b[15:0]; //adder16 sum
+    ytoystar.alufn0 = alufn[0];
+    sixteenbitadder.x[15:0] = a[15:0];
+    sixteenbitadder.y[15:0] = ytoystar.ystar[15:0];
+    sixteenbitadder.cin = ytoystar.cin[0];
+    s[15:0] = sixteenbitadder.s[15:0];
+
+    zvn.alufn0 = alufn[0];
+    zvn.x15 = a[15];
+    zvn.y15 = b[15];
+    zvn.s = s;
+    z = zvn.z;
+    v = zvn.v;
+    n = zvn.n;
+    
+    
+    compare.alufn1 = alufn[1];
+    compare.alufn2 = alufn[2];
+    
+    compare.z = z;
+    compare.v = v;
+    compare.n = n;
+    c[0] = compare.cmp0;
+    c[15:1] = 15b0;
+    
+    shift.x = a;
+    shift.y = b[3:0];
+    shift.alufn = alufn[1:0];
+    sh = shift.sh;
+    
+    boole.x = a;
+    boole.y = b;
+    boole.alufn = alufn[3:0];
+    bool = boole.o;
+    
+    case (alufn[5:4]) {
+      b00:
+        out = s;
+      b01:
+        out = bool;
+      b10:
+        out = sh;
+      b11:
+        out = c;
+      default:
+        out = 16b0;
+      
+    }
+    
+    z_out = 0;
+    n_out = 0;
+    v_out = 0;
+    
+    if (alufn == 6b000000 || alufn == 6b000001) {
+        z_out = z;
+        n_out = n;
+        v_out = v;
+    }
+
+    if (alufn == 6b000010) {
+      overflow[15:0] = a*b;
+      out = overflow;
+      
+      n_out = overflow[15];
+      
+      if(a[15] != overflow[15]) {
+        v_out = 1;
+      }
+    }
+  }
+}
+

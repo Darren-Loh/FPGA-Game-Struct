@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.1 (win64) Build 2902540 Wed May 27 19:54:49 MDT 2020
-| Date         : Thu Dec  3 01:27:07 2020
+| Date         : Thu Dec  3 06:20:17 2020
 | Host         : LAPTOP-IC7HNLMF running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file au_top_0_control_sets_placed.rpt
 | Design       : au_top_0
@@ -27,7 +27,7 @@ Table of Contents
 |    Minimum number of control sets                        |    19 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    39 |
+| Unused register locations in slices containing registers |    46 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -58,12 +58,12 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              16 |            7 |
+| No           | No                    | No                     |              16 |            8 |
 | No           | No                    | Yes                    |               0 |            0 |
 | No           | Yes                   | No                     |              48 |           13 |
-| Yes          | No                    | No                     |               4 |            3 |
+| Yes          | No                    | No                     |               4 |            2 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |             357 |          111 |
+| Yes          | Yes                   | No                     |             358 |          117 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
@@ -73,25 +73,25 @@ Table of Contents
 +----------------+------------------------------------+-------------------------------------+------------------+----------------+--------------+
 |  Clock Signal  |            Enable Signal           |           Set/Reset Signal          | Slice Load Count | Bel Load Count | Bels / Slice |
 +----------------+------------------------------------+-------------------------------------+------------------+----------------+--------------+
-|  clk_IBUF_BUFG | whale/M_state_q_reg[1]_1           |                                     |                3 |              4 |         1.33 |
-|  clk_IBUF_BUFG | whale/M_state_q[4]_i_2_n_0         | reset_button/rst                    |                2 |              5 |         2.50 |
-|  clk_IBUF_BUFG |                                    |                                     |                7 |             16 |         2.29 |
-|  clk_IBUF_BUFG | whale/M_state_q_reg[1]_3[0]        | reset_button/rst                    |                4 |             16 |         4.00 |
-|  clk_IBUF_BUFG | whale/M_state_q_reg[1]_2[0]        | reset_button/rst                    |                5 |             16 |         3.20 |
-|  clk_IBUF_BUFG | whale/M_state_q_reg[2]_0[0]        | reset_button/rst                    |                8 |             16 |         2.00 |
-|  clk_IBUF_BUFG | whale/M_state_q_reg[4]_3[0]        | reset_button/rst                    |                8 |             16 |         2.00 |
-|  clk_IBUF_BUFG | whale/M_state_q_reg[2]_1[0]        | reset_button/rst                    |               10 |             16 |         1.60 |
-|  clk_IBUF_BUFG | whale/M_state_q_reg[4]_0[0]        | reset_button/rst                    |                9 |             16 |         1.78 |
+|  clk_IBUF_BUFG | whale/M_state_q_reg[1]_1           |                                     |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG | whale/M_state_q[4]_i_2_n_0         | reset_button/rst                    |                1 |              5 |         5.00 |
+|  clk_IBUF_BUFG |                                    |                                     |                8 |             16 |         2.00 |
+|  clk_IBUF_BUFG | whale/M_state_q_reg[4]_1[0]        | reset_button/rst                    |                6 |             16 |         2.67 |
+|  clk_IBUF_BUFG | whale/M_state_q_reg[4]_3[0]        | reset_button/rst                    |                5 |             16 |         3.20 |
+|  clk_IBUF_BUFG | whale/M_state_q_reg[1]_3[0]        | reset_button/rst                    |                9 |             16 |         1.78 |
+|  clk_IBUF_BUFG | whale/M_state_q_reg[1]_2[0]        | reset_button/rst                    |                8 |             16 |         2.00 |
+|  clk_IBUF_BUFG | whale/M_state_q_reg[4]_2[0]        | reset_button/rst                    |               10 |             16 |         1.60 |
 |  clk_IBUF_BUFG |                                    | reset_button/rst                    |                5 |             17 |         3.40 |
+|  clk_IBUF_BUFG | whale/M_state_q_reg[1]_4[0]        | reset_button/rst                    |               10 |             17 |         1.70 |
+|  clk_IBUF_BUFG | button_cond3/sel                   | button_cond3/sync/clear             |                5 |             20 |         4.00 |
+|  clk_IBUF_BUFG | reset_button/M_ctr_q[0]_i_2__3_n_0 | reset_button/sync/M_pipe_q_reg[1]_0 |                5 |             20 |         4.00 |
 |  clk_IBUF_BUFG | button_cond0/M_ctr_q[0]_i_2__2_n_0 | button_cond0/sync/M_pipe_q_reg[1]_0 |                5 |             20 |         4.00 |
 |  clk_IBUF_BUFG | button_cond1/M_ctr_q[0]_i_2__1_n_0 | button_cond1/sync/M_pipe_q_reg[1]_0 |                5 |             20 |         4.00 |
 |  clk_IBUF_BUFG | button_cond2/M_ctr_q[0]_i_2__0_n_0 | button_cond2/sync/M_pipe_q_reg[1]_0 |                5 |             20 |         4.00 |
-|  clk_IBUF_BUFG | button_cond3/sel                   | button_cond3/sync/clear             |                5 |             20 |         4.00 |
-|  clk_IBUF_BUFG | reset_button/M_ctr_q[0]_i_2__3_n_0 | reset_button/sync/M_pipe_q_reg[1]_0 |                5 |             20 |         4.00 |
-|  clk_IBUF_BUFG | whale/M_state_q_reg[1]_1           | reset_button/M_last_q_reg           |                9 |             28 |         3.11 |
+|  clk_IBUF_BUFG | whale/M_state_q_reg[1]_1           | reset_button/M_last_q_reg           |                8 |             28 |         3.50 |
 |  clk_IBUF_BUFG |                                    | play_counter/en_edge/M_ctr_rst      |                8 |             31 |         3.88 |
-|  clk_IBUF_BUFG | whale/M_reg2_d                     | reset_button/rst                    |               10 |             32 |         3.20 |
-|  clk_IBUF_BUFG | whale/E[0]                         | reset_button/rst                    |               21 |             96 |         4.57 |
+|  clk_IBUF_BUFG | whale/M_reg2_d                     | reset_button/rst                    |               18 |             32 |         1.78 |
+|  clk_IBUF_BUFG | whale/E[0]                         | reset_button/rst                    |               17 |             96 |         5.65 |
 +----------------+------------------------------------+-------------------------------------+------------------+----------------+--------------+
 
 

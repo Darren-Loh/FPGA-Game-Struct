@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="FPGA-Game-Struct" board="Alchitry Au" language="Lucid" version="3">
   <files>
-    <src>play_counter.luc</src>
-    <src>multi_seven_seg.luc</src>
+    <src>ytoystar.luc</src>
+    <src>shiftright16.luc</src>
     <component>button_conditioner.luc</component>
+    <src>decimal_counter.luc</src>
+    <src>mux4.luc</src>
+    <src>multiply_single_layer.luc</src>
+    <src>sixteen_bit_adder.luc</src>
+    <src>find_v.luc</src>
+    <src>regfile.luc</src>
+    <component>edge_detector.luc</component>
+    <src>rng_sequence.luc</src>
+    <src>find_z.luc</src>
+    <component>pipeline.luc</component>
+    <src>multiplier16.luc</src>
+    <src>play_counter.luc</src>
+    <src>shift16.luc</src>
+    <src>multi_seven_seg.luc</src>
+    <src>shiftleft16.luc</src>
+    <src>alu16.luc</src>
     <component>reset_conditioner.luc</component>
+    <src>boole16.luc</src>
     <src>whale.luc</src>
     <component>decoder.luc</component>
-    <src>decimal_counter.luc</src>
+    <src>compare16.luc</src>
+    <src>find_n.luc</src>
     <component>counter.luc</component>
     <src>seven_seg.luc</src>
     <src>alu.luc</src>
-    <src>regfile.luc</src>
+    <src>alufn_checker.luc</src>
+    <src>find_zvn.luc</src>
+    <src>full_adder.luc</src>
     <src top="true">au_top.luc</src>
     <src>sig_selector.luc</src>
-    <component>edge_detector.luc</component>
-    <src>rng_sequence.luc</src>
     <component>pn_gen.luc</component>
-    <component>pipeline.luc</component>
     <src>play_notes.luc</src>
     <constraint>custom.acf</constraint>
     <constraint>au_custom.xdc</constraint>

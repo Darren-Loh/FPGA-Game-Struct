@@ -1,0 +1,9 @@
+module find_n (
+    input s15,
+    output n
+  ) {
+
+  always {
+    n = s15;
+  }
+}

@@ -1,7 +1,6 @@
 module whale (
     input clk,  // clock
     input rst,  // reset
-    //input reg[16][16],
     input rb_data[16],
     input counter_sel,
     input blue,
@@ -25,7 +24,6 @@ module whale (
   .clk(clk) {
     .rst(rst) {
       fsm state = {GENERATE_BUZZER_SEQUENCE,GENERATE_LED_SEQUENCE,GENERATE_FINAL_SEQUENCE,PLAY_SEQUENCE, IDLE, BLUE_SHIFT, GREEN_SHIFT, RED_SHIFT,YELLOW_SHIFT,BUTTON_COUNTER,GREEN_ADD,RED_ADD,YELLOW_ADD,RESET_LED_SEQUENCE,RESET_BUZZER_SEQUENCE,COMPUTE_CORRECT,CHECK_CORRECT,PLAYER_SCORE_ADD,GAME_OVER};
-      //dff timer[3];
       
     }
   }
@@ -44,8 +42,6 @@ module whale (
     rand_next = 0;
     game_over = 0;
     
-    //timer.d = timer.q+1;
-    
     //cases
     case(state.q) {
       state.GENERATE_BUZZER_SEQUENCE:
@@ -54,20 +50,15 @@ module whale (
         wdsel = 0;
         rand_sel = 0;
         rand_next = 1;
+        state.d = state.GENERATE_LED_SEQUENCE;
         
-        //if (reg[1] != 0){
-          state.d = state.GENERATE_LED_SEQUENCE;
-        //}
       state.GENERATE_LED_SEQUENCE:
         we = 1;
         rc = 0;
         wdsel = 0;
         rand_sel = 1;
         rand_next = 1;
-        //timer.d = 0;
-        //if (reg[0] != 0) {
-          state.d = state.GENERATE_FINAL_SEQUENCE;
-        //}
+        state.d = state.GENERATE_FINAL_SEQUENCE;
         
       state.GENERATE_FINAL_SEQUENCE:
         alufn = b010110;
@@ -78,34 +69,27 @@ module whale (
         rb = 1;
         rc = 2;
         wdsel = 1;
-        //timer.d = 1;
-        
-        //if (timer.q == 1) {
-          state.d = state.PLAY_SEQUENCE;
-        //}
+        state.d = state.PLAY_SEQUENCE;
       
       state.PLAY_SEQUENCE:
         we = 0;
         play_enable = 1;
         if (counter_sel) {
-          // counter_sel == 1
           state.d = state.IDLE;
         }
       
       state.IDLE:
         if (blue == 1) {
           state.d = state.BLUE_SHIFT;
-        }else if (green == 1) {
+        } else if (green == 1) {
           state.d = state.GREEN_SHIFT;
-        }else if (yellow ==1) {
+        } else if (yellow ==1) {
           state.d = state.YELLOW_SHIFT;
         } else if (red ==1) {
           state.d = state.RED_SHIFT;
         }
         
-        rb = 5;
-        
-        //if (reg[5] == 8) {
+        rb = 5; // Get rb_data
         if (rb_data == 8) {
           state.d = state.RESET_LED_SEQUENCE;
         }
@@ -230,16 +214,13 @@ module whale (
         rc = 5;
         we = 1;
         wdsel = 2;
-        
-        //if (reg[11] == 1) {
+
         if (rb_data[0]) {
           // rb_data == 1 --> player is correct
           state.d = state.PLAYER_SCORE_ADD;
-        //} else if (reg[11] == 0) {
         } else {
+          // player is wrong
           state.d = state.GAME_OVER;
-          // Be stuck at this state until game rst
-          // not implemented to show empty state
         }
       
       state.PLAYER_SCORE_ADD:
@@ -253,12 +234,10 @@ module whale (
         state.d = state.GENERATE_BUZZER_SEQUENCE;
       
       state.GAME_OVER:
+        // Be stuck at this state until game rst
         game_over=1;
             
         if (rst) {
-          // we = 1;
-          // rc = 4;
-          // wdsel = b10;
           state.d = state.GENERATE_BUZZER_SEQUENCE;
         }
     }

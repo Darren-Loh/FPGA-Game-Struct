@@ -196,14 +196,20 @@ module au_top_0 (
   );
   
   wire [16-1:0] M_alu_out;
+  wire [1-1:0] M_alu_z_out;
+  wire [1-1:0] M_alu_v_out;
+  wire [1-1:0] M_alu_n_out;
   reg [6-1:0] M_alu_alufn;
   reg [16-1:0] M_alu_a;
   reg [16-1:0] M_alu_b;
-  alu_8 alu (
+  alu16_8 alu (
     .alufn(M_alu_alufn),
     .a(M_alu_a),
     .b(M_alu_b),
-    .out(M_alu_out)
+    .out(M_alu_out),
+    .z_out(M_alu_z_out),
+    .v_out(M_alu_v_out),
+    .n_out(M_alu_n_out)
   );
   
   wire [16-1:0] M_play_notes_test_ra;

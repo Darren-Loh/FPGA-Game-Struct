@@ -84,14 +84,19 @@ set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib {
-  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/alu_8.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/alu16_8.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/boole16_22.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/button_conditioner_1.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/compare16_20.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/counter_12.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/counter_15.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/decimal_counter_10.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/decoder_17.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/edge_detector_2.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/find_zvn_23.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/full_adder_25.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/multi_seven_seg_7.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/mux4_28.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/pipeline_11.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/play_counter_3.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/play_notes_9.v}
@@ -99,9 +104,14 @@ read_verilog -library xil_defaultlib {
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/regfile_6.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/rng_sequence_4.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/seven_seg_16.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/shift16_21.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/shiftleft16_26.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/shiftright16_27.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/sig_selector_14.v}
-  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/sig_selector_18.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/sig_selector_24.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/sixteen_bit_adder_19.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/whale_5.v}
+  {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/ytoystar_18.v}
   {C:/Users/JK/Desktop/Comp Struct/Alchitry Au/FPGA-Game-Struct/work/vivado/FPGA-Game-Struct/FPGA-Game-Struct.srcs/sources_1/imports/verilog/au_top_0.v}
 }
 OPTRACE "Adding files" END { }

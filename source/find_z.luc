@@ -1,0 +1,11 @@
+module find_z (
+    input s[16], //inputs sum from adder
+    output z //outputs z signal
+  ) {
+sig i; //intermediary connector
+  always {
+    i = s[15] | s[14] | s[13] | s[12] | s[11] | s[10] | s[9] | s[8] | s[7] | s[6] | s[5] | s[4] | s[3] | s[2] | s[1] | s[0]; // nor16 gate
+    z = !i;
+    
+  }
+}

@@ -21,7 +21,7 @@ module play_notes_9 (
   wire [8-1:0] M_buzz_split_even;
   wire [8-1:0] M_buzz_split_odd;
   reg [16-1:0] M_buzz_split_value;
-  sig_selector_18 buzz_split (
+  sig_selector_24 buzz_split (
     .value(M_buzz_split_value),
     .double(M_buzz_split_double),
     .even(M_buzz_split_even),
@@ -32,7 +32,7 @@ module play_notes_9 (
   wire [8-1:0] M_led_split_even;
   wire [8-1:0] M_led_split_odd;
   reg [16-1:0] M_led_split_value;
-  sig_selector_18 led_split (
+  sig_selector_24 led_split (
     .value(M_led_split_value),
     .double(M_led_split_double),
     .even(M_led_split_even),

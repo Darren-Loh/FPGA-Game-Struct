@@ -1,0 +1,27 @@
+module mux4 (
+    input s1,
+    input s0,
+    input choice0,
+    input choice1,
+    input choice2,
+    input choice3,
+    output o
+    
+  ) {
+  always {
+  
+    case (c{s0,s1}) {
+      b00:
+        o = choice0;        
+      b10: 
+        o = choice1;
+      b01:
+        o = choice2;
+      b11:
+        o = choice3;
+        
+      default:
+        o = choice0;
+    }
+  }
+}

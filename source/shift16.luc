@@ -1,0 +1,25 @@
+module shift16 (
+    input x[16],
+    input y[4],
+    input alufn[2],
+    output sh[16]
+  ) {
+shiftleft16 shl;
+shiftright16 shr;
+  always {
+    shl.x = x;
+    shl.y = y;
+    shr.x = x;
+    shr.y = y;
+    shr.alufn1 = alufn[1];
+    case(alufn[0]){
+      b0:        
+        sh = shl.sh;
+      b1:        
+        sh = shr.sh;
+      default:
+        sh = shl.sh;
+    }
+    
+  }
+}

@@ -1,0 +1,26 @@
+module alufn_checker (
+    input alufn[6],
+    output invalid
+  ) {
+
+  always {
+  
+    // Is alufn[6] not in this list -> invalid alufn signal!
+    case (alufn) {
+      6b000000: invalid = 1b0;
+      6b000001: invalid = 1b0;
+      6b011000: invalid = 1b0;
+      6b011110: invalid = 1b0;
+      6b010110: invalid = 1b0;
+      6b011010: invalid = 1b0;
+      6b100000: invalid = 1b0;
+      6b100001: invalid = 1b0;
+      6b100011: invalid = 1b0;
+      6b110011: invalid = 1b0;
+      6b110101: invalid = 1b0;
+      6b110111: invalid = 1b0;
+      6b000010: invalid = 1b0;
+      default: invalid = 1b1;
+    }
+  }
+}

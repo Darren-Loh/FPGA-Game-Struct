@@ -1,0 +1,17 @@
+module compare16 (
+  input alufn2,
+  input alufn1,
+  input z,
+  input v,
+  input n,
+  output cmp0
+) {
+ 
+  always {
+  case (c{alufn2,alufn1}) {
+      2b01: cmp0 = z;
+      2b10: cmp0 = (n^v);
+      2b11: cmp0 = z|(n^v);
+      default: cmp0 = 0;
+  }
+}

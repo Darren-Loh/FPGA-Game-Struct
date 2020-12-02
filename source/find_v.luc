@@ -1,0 +1,16 @@
+module find_v (
+    input x15,
+    input y15,
+    input s15,
+    output v
+  ) {
+sig xinv, yinv, sinv, i1, i2; //intermediary connectors
+  always {
+    xinv = !x15;
+    yinv = !y15;
+    sinv = !s15;
+    i1 = xinv & yinv & s15;
+    i2 = x15 & y15 & sinv;
+    v = i1 | i2;
+  }
+}

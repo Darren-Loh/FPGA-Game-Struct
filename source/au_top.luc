@@ -20,21 +20,17 @@ module au_top (
   sig rst;                  // reset signal
   
   .clk(clk) {
-    // The reset conditioner is used to synchronize the reset signal to the FPGA
-    // clock. This ensures the entire FPGA comes out of reset at the same time.
-//reset_conditioner reset_cond;
+    // Buttoon conditioners and edge detectors
     button_conditioner button_cond0;
     button_conditioner button_cond1;
     button_conditioner button_cond2;
     button_conditioner button_cond3;
-    
     button_conditioner reset_button;
    
     edge_detector button_edge0 (#RISE(1), #FALL(0));
     edge_detector button_edge1 (#RISE(1), #FALL(0));
     edge_detector button_edge2 (#RISE(1), #FALL(0));
     edge_detector button_edge3 (#RISE(1), #FALL(0));
-    
     edge_detector reset_edge (#RISE(1), #FALL(0));
     
     .rst(rst){
@@ -47,20 +43,14 @@ module au_top (
 
   }
   
-  // rst button not working
-  // button edge detector may not be working
-  // sequence same all the time
-  // led light not present
-  // low buzzer sounds all the time
+  // idk why reset button is working
+  // idk why starting state is wait for press
   
-  alu alu;
+  alu16 alu;
   play_notes play_notes;
   decimal_counter decimal;
   
-  always {    
-    //reset_cond.in = ~rst_n; // input raw inverted reset signal
-    //rst = reset_cond.out;   // conditioned reset
-    
+  always {
     reset_button.in = rst_n;
     reset_edge.in = reset_button.out;
     rst = reset_edge.out;
@@ -75,13 +65,6 @@ module au_top (
     // whale
     whale.counter_sel = play_counter.done;
     whale.rb_data = regfile.rbdata;
-    // buttons io
-    //button_cond.in = button;  // TODO: Untested implementation
-    //button_edge.in = button_cond.out;
-    //whale.blue = button_edge.out[0];
-    //whale.green = button_edge.out[1];
-    //whale.red = button_edge.out[2];
-    //whale.yellow = button_edge.out[3];
     
     button_cond0.in = button[0];
     button_cond1.in = button[1];
@@ -117,11 +100,10 @@ module au_top (
       rgb_led[3] = 1;
     }
     
-    ///  Buzz
-    
+    // Sequence for SEED = 32hDEADBEEF
     // 2, 0, 0, 0, 2, 3, 0, 0 LED
     // 1, 0, 1, 1, 1, 1, 0, 1 Buzz 
-    // 1, 0, 3, 3, 1, 0, 0, 3 final this is wrong???
+    // 1, 0, 3, 3, 1, 0, 0, 3 Final
     
     // io testing
     io_led[0][2:0] = regfile.testing_reg5[3:0];
@@ -149,7 +131,6 @@ module au_top (
     // alu
     alu.alufn = whale.alufn;
     
-    // TODO: regfile.player_score connect to 7 seg
     // 7 seg
     decimal.binary = regfile.player_score;
     multi_seg.values = decimal.decimal;

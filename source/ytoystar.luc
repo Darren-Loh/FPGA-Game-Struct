@@ -1,0 +1,12 @@
+module ytoystar (
+    input y[16],
+    input alufn0,
+    output ystar[16],
+    output cin
+  ) {
+
+  always {
+    ystar[15:0] = y[15:0] ^ 16x{alufn0};
+    cin = alufn0;
+  }
+}

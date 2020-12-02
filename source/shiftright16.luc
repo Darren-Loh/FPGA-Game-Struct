@@ -1,0 +1,59 @@
+module shiftright16 (
+    input x[16],
+    input y[4],
+    input alufn1,
+    output sh[16]
+) {
+sig a[16],b[16],c[16]; //intermediary connectors between muxes
+sig se; //sign extension if alufn1 == 1
+  
+  always {
+  
+    case (alufn1) {
+      b0:
+        se = 0;
+      b1:
+        se = x[15];
+      default:
+        se = 0;  
+    }
+    
+    case (y[3]) {
+      b0:
+        a = x;
+      b1:
+        a[7:0] = x[15:8];
+        a[15:8] = 8x{se};
+      default: 
+        a = x;
+    }
+    
+    case (y[2]) {
+      b0:
+        b = a;
+      b1:
+        b[11:0] = a[15:4];
+        b[15:12] = 4x{se};
+      default:
+        b = a;      
+    }
+    case (y[1]) {
+      b0:
+        c = b;
+      b1:
+        c[13:0] = b[15:2];
+        c[15:14] = 2x{se};
+      default:
+        c = b;
+    }
+    case (y[0]) {
+      b0: 
+        sh = c;
+      b1: 
+        sh[14:0] = c[15:1];
+        sh[15] = se;
+      default:
+        sh = c; 
+    }
+  }
+}

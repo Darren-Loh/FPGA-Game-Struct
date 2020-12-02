@@ -1,0 +1,47 @@
+module shiftleft16 (
+    input x[16],
+    input y[4],
+    output sh[16]
+) {
+sig a[16],b[16],c[16]; //intermediary connectors between muxes
+  
+  always {
+    case (y[3]) {
+      b0:
+        a = x;
+      b1:
+        a[15:8] = x[7:0];
+        a[7:0] = 8b0;
+      default: 
+        a = x;
+    }
+    
+    case (y[2]) {
+      b0:
+        b = a;
+      b1:
+        b[15:4] = a[11:0];
+        b[3:0]  = 4b0;
+      default:
+        b = a;      
+    }
+    case (y[1]) {
+      b0:
+        c = b;
+      b1:
+        c[15:2] = b[13:0];
+        c[1:0] = 2b0;
+      default:
+        c = b;
+    }
+    case (y[0]) {
+      b0: 
+        sh = c;
+      b1: 
+        sh[15:1] = c[14:0];
+        sh[0] = b0;
+      default:
+        sh = c; 
+    }
+  }
+}

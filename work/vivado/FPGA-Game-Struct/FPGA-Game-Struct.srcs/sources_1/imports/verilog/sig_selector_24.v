@@ -10,7 +10,7 @@
      SPLIT = 1
      NOTES = 8
 */
-module sig_selector_18 (
+module sig_selector_24 (
     input [15:0] value,
     output reg [15:0] double,
     output reg [7:0] even,
